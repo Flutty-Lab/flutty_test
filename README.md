@@ -10,7 +10,7 @@ Testing utilities, helpers and matchers for Flutty packages.
 
 ```yaml
 dev_dependencies:
-  flutty_test: ^0.1.0
+  flutty_test: ^0.2.0
 ```
 
 ## Usage
@@ -19,11 +19,42 @@ dev_dependencies:
 import 'package:flutty_test/flutty_test.dart';
 
 void main() {
-  testWidgets('my widget test', (tester) async {
-    // Pump a widget wrapped in MaterialApp
-    await tester.pumpApp(MyWidget());
-    expect(find.text('Hello'), findsOneWidget);
-  });
+  simpleTestGoldens(
+    'MyWidget',
+    widget: const MyWidget(),
+    height: 80,
+  );
+}
+```
+
+### Multi-device golden (screens)
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutty_test/flutty_test.dart';
+
+void main() {
+  screenTestGoldens(
+    'MyScreen',
+    widget: const MaterialApp(home: MyScreen()),
+  );
+}
+```
+
+### With localization delegates
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutty_test/flutty_test.dart';
+import 'package:flutty_test/l10n/arb/_app_localizations.dart';
+
+void main() {
+  simpleTestGoldens(
+    'LocalizedWidget',
+    widget: const MaterialApp(home: LocalizedWidget()),
+    height: 120,
+    localizations: AppLocalizations.localizationsDelegates,
+  );
 }
 ```
 
