@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutty_test/l10n/arb/_app_localizations.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 const _defaultWidth = 375.0;
@@ -212,7 +211,6 @@ WidgetWrapper _materialAppWrapper({
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
-    ...AppLocalizations.localizationsDelegates,
     ...?localizations,
   ];
 
