@@ -1,6 +1,7 @@
-## 0.2.0
+## 0.1.1
 
-- Remove dependency on flutty_ds
+- Add all real code from private lib
+- Update examples
 
 ## 0.1.0
 

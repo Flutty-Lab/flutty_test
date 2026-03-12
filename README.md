@@ -10,7 +10,7 @@ Testing utilities, helpers and matchers for Flutty packages.
 
 ```yaml
 dev_dependencies:
-  flutty_test: ^0.2.0
+  flutty_test: ^0.1.1
 ```
 
 ## Usage
