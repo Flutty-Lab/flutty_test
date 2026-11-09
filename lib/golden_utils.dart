@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
+
+import 'golden_toolkit.dart';
 
 const _defaultWidth = 375.0;
 
+/// Small phone [Device] (375x667) with iPhone-style safe area insets.
 const Device smallPhone = Device(
   name: 'smallPhone',
   size: Size(375, 667),
   safeArea: EdgeInsets.only(top: 44, bottom: 34),
 );
 
+/// Same [Device] as [smallPhone] but with text scaled by 2.
 const Device smallPhoneWithZoom2 = Device(
   name: 'smallPhoneTextScale2',
   size: Size(375, 667),
@@ -18,6 +21,10 @@ const Device smallPhoneWithZoom2 = Device(
   safeArea: EdgeInsets.only(top: 44, bottom: 34),
 );
 
+/// Golden test of a single [widget] rendered at several text scale factors.
+///
+/// Generates a light (`<title>_light`) and a dark (`<title>_dark`) golden,
+/// each containing the widget at default size, x2 and max text scale.
 void testGoldensWithTextScale(
   String title, {
   required Widget widget,
@@ -54,6 +61,9 @@ void testGoldensWithTextScale(
   );
 }
 
+/// Golden test of a single [widget] on a fixed surface ([width] x [height]).
+///
+/// Generates a light (`<title>_light`) and a dark (`<title>_dark`) golden.
 void simpleTestGoldens(
   String title, {
   required Widget widget,
@@ -85,6 +95,13 @@ void simpleTestGoldens(
   );
 }
 
+/// Full-screen golden test of a [widget] on multiple [Device]s.
+///
+/// Generates one golden per device named `<title>_<mode>.<device>` for light
+/// mode ([smallPhone], [smallPhoneWithZoom2]) and dark mode ([Device.iphone11]).
+/// Use [onlyLight] / [onlyDark] to restrict to a single mode, [overrideDevices]
+/// or [additionalDevices] to customize the simulated devices, and
+/// [waitDurationForAnimationInMs] to let animations complete before capture.
 void screenTestGoldens(
   String title, {
   required Widget widget,
@@ -103,29 +120,29 @@ void screenTestGoldens(
   );
 
   void executeTest(ThemeMode mode, List<Device> devices) => _runTestGoldens(
-        title: title,
-        widget: widget,
-        mode: mode,
-        afterPumpAction: afterPumpAction,
-        localizations: localizations,
-        test: (tester) async {
-          await initScreen?.call(tester);
-          await multiScreenGolden(
-            tester,
-            '${title}_${mode.name}',
-            autoHeight: true,
-            devices: devices,
-            customPump: waitDurationForAnimationInMs != null
-                ? (tester) async => tester.pump(
-                      // We need to provide a duration to make the fake timer
-                      // advance, otherwise it remains on the 0 time slot and
-                      // raises an exception.
-                      Duration(milliseconds: waitDurationForAnimationInMs),
-                    )
-                : null,
-          );
-        },
+    title: title,
+    widget: widget,
+    mode: mode,
+    afterPumpAction: afterPumpAction,
+    localizations: localizations,
+    test: (tester) async {
+      await initScreen?.call(tester);
+      await multiScreenGolden(
+        tester,
+        '${title}_${mode.name}',
+        autoHeight: true,
+        devices: devices,
+        customPump: waitDurationForAnimationInMs != null
+            ? (tester) async => tester.pump(
+                // We need to provide a duration to make the fake timer
+                // advance, otherwise it remains on the 0 time slot and
+                // raises an exception.
+                Duration(milliseconds: waitDurationForAnimationInMs),
+              )
+            : null,
       );
+    },
+  );
 
   if (onlyDark || onlyLight) {
     executeTest(onlyDark ? ThemeMode.dark : ThemeMode.light, [
@@ -187,10 +204,11 @@ void _runTestGoldens({
       await tester.pumpWidgetBuilder(
         widget,
         wrapper: _materialAppWrapper(
-            mode: mode,
-            localizations: localizations,
-            lightTheme: lightTheme,
-            darkTheme: darkTheme),
+          mode: mode,
+          localizations: localizations,
+          lightTheme: lightTheme,
+          darkTheme: darkTheme,
+        ),
         surfaceSize: surfaceSize ?? const Size(800, 600),
       );
       await afterPumpAction?.call(tester);
@@ -215,13 +233,13 @@ WidgetWrapper _materialAppWrapper({
   ];
 
   return (child) => MaterialApp(
-        localizationsDelegates: delegates,
-        supportedLocales: localeOverrides ?? const [Locale('fr')],
-        theme: lightTheme ?? ThemeData.light(),
-        darkTheme: darkTheme ?? ThemeData.dark(),
-        themeMode: mode,
-        debugShowCheckedModeBanner: false,
-        home: Material(child: child),
-        navigatorObservers: [if (navigatorObserver != null) navigatorObserver],
-      );
+    localizationsDelegates: delegates,
+    supportedLocales: localeOverrides ?? const [Locale('fr')],
+    theme: lightTheme ?? ThemeData.light(),
+    darkTheme: darkTheme ?? ThemeData.dark(),
+    themeMode: mode,
+    debugShowCheckedModeBanner: false,
+    home: Material(child: child),
+    navigatorObservers: [?navigatorObserver],
+  );
 }

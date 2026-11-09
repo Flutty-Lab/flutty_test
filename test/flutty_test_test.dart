@@ -19,8 +19,10 @@ void main() {
       expect(smallPhoneWithZoom2.name, 'smallPhoneTextScale2');
       expect(smallPhoneWithZoom2.size, const Size(375, 667));
       expect(smallPhoneWithZoom2.textScale, 2);
-      expect(smallPhoneWithZoom2.safeArea,
-          const EdgeInsets.only(top: 44, bottom: 34));
+      expect(
+        smallPhoneWithZoom2.safeArea,
+        const EdgeInsets.only(top: 44, bottom: 34),
+      );
     });
   });
 }
