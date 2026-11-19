@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'golden_toolkit.dart';
 
@@ -226,9 +225,7 @@ WidgetWrapper _materialAppWrapper({
   ThemeMode? mode = ThemeMode.light,
 }) {
   final delegates = <LocalizationsDelegate<dynamic>>[
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
+    ...GlobalMaterialLocalizations.delegates,
     ...?localizations,
   ];
 

@@ -30,7 +30,7 @@ void main() {
 ### Multi-device golden (screens)
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutty_test/flutty_test.dart';
 
 void main() {
@@ -44,7 +44,7 @@ void main() {
 ### With localization delegates
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutty_test/flutty_test.dart';
 import 'package:flutty_test/l10n/arb/_app_localizations.dart';
 
