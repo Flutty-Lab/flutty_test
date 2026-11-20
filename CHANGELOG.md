@@ -1,3 +1,9 @@
+## 0.4.0
+
+- Require Flutter >=3.50.0
+- Migrate to `package:material_ui`; `GlobalMaterialLocalizations.delegates` (material_ui) replaces the deprecated `flutter_localizations` delegates — the `flutter_localizations` dependency is no longer needed
+- Update README examples to `package:material_ui`
+
 ## 0.3.0
 
 - Require Flutter >=3.47.0 / Dart >=3.13.0
